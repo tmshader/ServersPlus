@@ -29,24 +29,24 @@ import net.minecraft.client.texture.MissingSprite;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.logging.UncaughtExceptionLogger;
 import org.apache.commons.lang3.Validate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+/*import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;*/
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Environment(EnvType.CLIENT)
 public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersScreenWidget.Entry> {
-    static final Logger LOGGER = LogManager.getLogger();
+    static final Logger LOGGER = LoggerFactory.getLogger("ServersPlus");
     static final ThreadPoolExecutor SERVER_PINGER_THREAD_POOL;
     static final Identifier UNKNOWN_SERVER_TEXTURE;
     static final Identifier SERVER_SELECTION_TEXTURE;
@@ -111,12 +111,12 @@ public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersSc
         SERVER_PINGER_THREAD_POOL = new ScheduledThreadPoolExecutor(5, (new ThreadFactoryBuilder()).setNameFormat("Server Pinger #%d").setDaemon(true).setUncaughtExceptionHandler(new UncaughtExceptionLogger(LOGGER)).build());
         UNKNOWN_SERVER_TEXTURE = new Identifier("textures/misc/unknown_server.png");
         SERVER_SELECTION_TEXTURE = new Identifier("textures/gui/server_selection.png");
-        LAN_SCANNING_TEXT = new TranslatableText("lanServer.scanning");
-        CANNOT_RESOLVE_TEXT = (new TranslatableText("multiplayer.status.cannot_resolve")).formatted(Formatting.DARK_RED);
-        CANNOT_CONNECT_TEXT = (new TranslatableText("multiplayer.status.cannot_connect")).formatted(Formatting.DARK_RED);
-        INCOMPATIBLE_TEXT = new TranslatableText("multiplayer.status.incompatible");
-        NO_CONNECTION_TEXT = new TranslatableText("multiplayer.status.no_connection");
-        PINGING_TEXT = new TranslatableText("multiplayer.status.pinging");
+        LAN_SCANNING_TEXT = Text.translatable("lanServer.scanning");
+        CANNOT_RESOLVE_TEXT = (Text.translatable("multiplayer.status.cannot_resolve")).formatted(Formatting.DARK_RED);
+        CANNOT_CONNECT_TEXT = (Text.translatable("multiplayer.status.cannot_connect")).formatted(Formatting.DARK_RED);
+        INCOMPATIBLE_TEXT = Text.translatable("multiplayer.status.incompatible");
+        NO_CONNECTION_TEXT = Text.translatable("multiplayer.status.no_connection");
+        PINGING_TEXT = Text.translatable("multiplayer.status.pinging");
     }
 
     @Environment(EnvType.CLIENT)
@@ -151,7 +151,7 @@ public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersSc
         }
 
         public Text getNarration() {
-            return LiteralText.EMPTY;
+            return Text.literal("");
         }
     }
 
@@ -288,7 +288,7 @@ public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersSc
             }*/
 
             l = server.getPing();
-            text = new TranslatableText("multiplayer.status.ping", this.server.getPing());
+            text = Text.translatable("multiplayer.status.ping", this.server.getPing());
             list2 = Collections.emptyList();
 
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -319,7 +319,7 @@ public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersSc
                 this.screen.setTooltip(list2);
             }
 
-            if (this.client.options.touchscreen || hovered) {
+            if (this.client.options.getTouchscreen().getValue() || hovered) {
                 RenderSystem.setShaderTexture(0, ServersScreenWidget.SERVER_SELECTION_TEXTURE);
                 DrawableHelper.fill(matrices, x, y, x + 32, y + 32, -1601138544);
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -456,15 +456,15 @@ public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersSc
         }
 
         public Text getNarration() {
-            return new TranslatableText("narrator.select", new Object[]{this.server.getName()});
+            return Text.translatable("narrator.select", new Object[]{this.server.getName()});
         }
     }
 
     @Environment(EnvType.CLIENT)
     public static class LanServerEntry extends ServersScreenWidget.Entry {
         private static final int field_32386 = 32;
-        private static final Text TITLE_TEXT = new TranslatableText("lanServer.title");
-        private static final Text HIDDEN_ADDRESS_TEXT = new TranslatableText("selectServer.hiddenAddress");
+        private static final Text TITLE_TEXT = Text.translatable("lanServer.title");
+        private static final Text HIDDEN_ADDRESS_TEXT = Text.translatable("selectServer.hiddenAddress");
         private final ServersScreen screen;
         protected final MinecraftClient client;
         protected final LanServerInfo server;
@@ -502,7 +502,7 @@ public class ServersScreenWidget extends AlwaysSelectedEntryListWidget<ServersSc
         }
 
         public Text getNarration() {
-            return new TranslatableText("narrator.select", new Object[]{(new LiteralText("")).append(TITLE_TEXT).append(" ").append(this.server.getMotd())});
+            return Text.translatable("narrator.select", new Object[]{(Text.literal("")).append(TITLE_TEXT).append(" ").append(this.server.getMotd())});
         }
     }
 }

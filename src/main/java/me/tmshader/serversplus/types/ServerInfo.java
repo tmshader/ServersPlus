@@ -3,7 +3,6 @@ package me.tmshader.serversplus.types;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Setting;
 
@@ -61,7 +60,7 @@ public class ServerInfo {
 
         private ResourcePackPolicy(String name) {
             this.name = name;
-            this.text = new TranslatableText("addServer.resourcePack." + name);
+            this.text = Text.translatable("addServer.resourcePack." + name);
         }
 
         public Text getText() {
