@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "serversplus",
+  "version": "${version}",
+  "name": "ServersPlus",
+  "description": "Adds another servers page for content creators and people who want to have their servers organised.",
+  "authors": [
+    "TMShader"
+  ],
+  "contact": {
+    "website": "https://tmshader.me/serversplus",
+    "repo": "https://github.com/TMShader/ServersPlus"
+  },
+  "license": "MIT",
+  "icon": "assets/serversplus/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "me.tmshader.serversplus.ServersPlus"
+    ]
+  },
+  "mixins": [
+    "ServersPlus.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.0",
+    "minecraft": "1.17.1"
+  }
+}
