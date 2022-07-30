@@ -8,12 +8,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -54,13 +54,13 @@ public class ServersScreen extends Screen {
         }
 
         this.addSelectableChild(this.serverListWidget);
-        this.buttonJoin = (ButtonWidget)this.addDrawableChild(new ButtonWidget(this.width / 2 - 102, this.height - 52, 100, 20, new TranslatableText("selectServer.select"), (button) -> {
+        this.buttonJoin = (ButtonWidget)this.addDrawableChild(new ButtonWidget(this.width / 2 - 102, this.height - 52, 100, 20, new TranslatableTextContent("selectServer.select"), (button) -> {
             this.connect();
         }));
-        this.buttonEdit = (ButtonWidget)this.addDrawableChild(new ButtonWidget(this.width / 2 + 2, this.height - 52, 100, 20, new TranslatableText("selectServer.edit"), (button) -> {
+        this.buttonEdit = (ButtonWidget)this.addDrawableChild(new ButtonWidget(this.width / 2 + 2, this.height - 52, 100, 20, new TranslatableTextContent("selectServer.edit"), (button) -> {
             this.client.setScreen(new EditServersScreen(this));
         }));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 102, this.height - 28, 100, 20, new TranslatableText("selectServer.refresh"), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - 102, this.height - 28, 100, 20, new TranslatableTextContent("selectServer.refresh"), (button) -> {
             this.refresh();
         }));
         this.addDrawableChild(new ButtonWidget(this.width / 2 + 2, this.height - 28, 100, 20, ScreenTexts.CANCEL, (button) -> {
