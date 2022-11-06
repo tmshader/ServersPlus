@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.0-SNAPSHOT'
     id 'maven-publish'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
@@ -94,4 +95,17 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
+}
+
+modrinth {
+    debugMode = (System.getenv("MODRINTH_DEBUG") == "true")
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "serversplus"
+    versionNumber = "v0.5-ALPHA"
+    versionName = "Servers Plus v0.5 Alpha"
+    versionType = "alpha"
+    uploadFile = remapJar
+    gameVersions = ["1.19", "1.19.1", "1.19.2"]
+    loaders = ["fabric"]
+    changelog = "Backport to 1.19 and port to 1.19.2"
 }
